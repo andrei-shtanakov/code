@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if last_actiom %}
+<p>Action is - , {{ last_action }}</p>
+{% endif %}
+
+  <form action="." method="GET">
+    Last Action: <input type="text" name="last_action"><br>
+    <p><b>What to do?</b></p>
+    <p><input name="action" type="radio" value="del_planets"> Delete planets DB</p>
+    <p><input name="action" type="radio" value="del_people"> Delete character DB</p>
+    <p><input name="action" type="radio" value="add_planets"> Add planets</p>
+    <p><input name="action" type="radio" value="add_people"> Add people</p>
+    <p><input name="action" type="radio" value="none" checked> None</p>
+    <p><input type="submit" value="Submit"></p>
+  </form>
+
+</body>
+</html>
