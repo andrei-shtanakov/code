@@ -2,40 +2,69 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Document
-from .models import Operator
 from .models import Planet
 from .models import Character
-from .serializers import DocumentSerializer
+from .models import DataUpdate
+from .serializers import DataUpdateSerializer
+from .serializers import PlanetSerializer
+from .serializers import CharacterSerializer
 from django.template import loader
 from docs.war import get_planets
 from docs.war import get_people
+from docs.war import update_db
 import docs.war as w
 from docs.war import del_all_people
 from docs.war import del_all_planets
 
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
 
 
 last_form_action = ""
 
-class DocumentView(APIView):
-    def get(self, request):
-        documents = Document.objects.all()
-        serializer = DocumentSerializer(documents, many=True)
-        return Response({"documents": serializer.data})
 
-    def post(self, request):
-        new_doc = request.data.get('article')
-        # Create an article from the above data
-        serializer = DocumentSerializer(data=new_doc)
-        if serializer.is_valid(raise_exception=True):
-            doc_saved = serializer.save()
-        return Response({"success": "Document '{}' created successfully".format(doc_saved.title)})
+class PlanetViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Planet.objects.all()
+        serializer = PlanetSerializer(queryset, many=True)
+        return Response(serializer.data)
 
-class OperatorView(APIView):
-    def get(self, request):
-        operators = Operator.objects.all()
-        return Response({"operarors": operators})
+    def retrieve(self, request, pk=None):
+        queryset = Planet.objects.all()
+        planet = get_object_or_404(queryset, pk=pk)
+        serializer = PlanetSerializer(planet)
+        return Response(serializer.data)
+
+
+class CharacterViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Character.objects.all()
+        serializer = CharacterSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = Character.objects.all()
+        people = get_object_or_404(queryset, pk=pk)
+        serializer = CharacterSerializer(people)
+        return Response(serializer.data)
+
+class PlanetPeopleViewSet(viewsets.ViewSet):
+    def list(self, request, pk=None):
+        queryset = Character.objects.all().filter(homeworld_id=pk)
+        serializer = CharacterSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class DataUpdateViewSet(viewsets.ViewSet):
+    def list(self, request, pk=None):
+
+        update_db()
+        print("test module")
+        queryset = DataUpdate.objects.all()
+        serializer = DataUpdateSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 
 
 def management(request):

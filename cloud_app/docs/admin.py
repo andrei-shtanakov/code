@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-from .models import Operator, Document, Planet, Character
+from .models import  DataUpdate, Planet, Character
 
 # Register your models here.
-admin.site.register(Operator)
-admin.site.register(Document)
+admin.site.register(DataUpdate)
 admin.site.register(Planet)
 admin.site.register(Character)

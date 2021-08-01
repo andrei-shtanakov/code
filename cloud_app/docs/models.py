@@ -1,21 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class Operator(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.name
-
-class Document(models.Model):
-    title = models.CharField(max_length=120)
-    description = models.TextField()
-    operator = models.ForeignKey('Operator', related_name='documents', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
-
 
 class Planet(models.Model):
     name            = models.CharField(max_length=50)
@@ -49,3 +34,13 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
+
+class DataUpdate(models.Model):
+    timing        = models.TimeField(auto_now_add=True, null=True)
+    dating        = models.DateField(auto_now_add=True, null=True)
+    people_count  = models.CharField(max_length=5)
+    planet_count  = models.CharField(max_length=5)
+    coment        = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.timing

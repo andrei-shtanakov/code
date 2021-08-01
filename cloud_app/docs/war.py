@@ -3,6 +3,7 @@ import json
 
 from docs.models import Planet
 from docs.models import Character
+from docs.models import DataUpdate
 
 def jprint(obj):
     text = json.dumps(obj, sort_keys=False, indent=4)
@@ -27,7 +28,7 @@ def get_planets():
                 )
             p.save()
             print(i["name"])
-            count = +1
+            count += 1
     return(count)
 
 def get_people():
@@ -49,7 +50,7 @@ def get_people():
                 )
             p.save()
             print(i["name"])
-            count = +1
+            count += 1
     return(count)
 
 def del_all_planets():
@@ -59,3 +60,12 @@ def del_all_planets():
 def del_all_people():
     Character.objects.all().delete()
 
+def update_db():
+    count_planets = 0
+    count_people  = 0
+    del_all_people()
+    del_all_planets()
+    count_planets = get_planets()
+    count_people  = get_people()
+    p = DataUpdate(people_count = count_people, planet_count = count_planets)
+    p.save()

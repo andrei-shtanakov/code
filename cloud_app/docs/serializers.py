@@ -1,11 +1,25 @@
 from rest_framework import serializers
 
-from .models import Document
+from .models import Planet
+from .models import Character
+from .models import DataUpdate
 
-class DocumentSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=120)
-    description = serializers.CharField()
-    operator_id = serializers.IntegerField()
 
-    def ceate(self, validated_data):
-        return Document.objects.create(**validatet_data)
+class PlanetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planet
+        fields = '__all__'
+
+
+class CharacterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = '__all__'
+
+
+
+class DataUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DataUpdate
+        fields = '__all__'
+
