@@ -9,6 +9,6 @@ PyMySQL==1.0.2
 python-dotenv==0.18.0
 pytz==2021.1
 requests==2.25.1
-sqlparse==0.4.1
+sqlparse==0.5.4
 typing-extensions==3.10.0.0
 urllib3==1.26.6
